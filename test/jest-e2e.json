@@ -11,6 +11,14 @@
     "^.+\\.(t|j)s$": "ts-jest"
   },
   "moduleNameMapper": {
+    "@app/config": "<rootDir>/../libs/config/src",
+    "@app/config/(.*)": "<rootDir>/../libs/config/src/$1",
+    "@app/decorators": "<rootDir>/../libs/decorators/src",
+    "@app/decorators/(.*)": "<rootDir>/../libs/decorators/src/$1",
+    "@app/guards": "<rootDir>/../libs/guards/src",
+    "@app/guards/(.*)": "<rootDir>/../libs/guards/src/$1",
+    "@app/providers": "<rootDir>/../libs/providers/src",
+    "@app/providers/(.*)": "<rootDir>/../libs/providers/src/$1",
     "@app/shared": "<rootDir>/../libs/shared/src",
     "@app/shared/(.*)": "<rootDir>/../libs/shared/src/$1"
   }

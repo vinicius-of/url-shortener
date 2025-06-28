@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+    users:
+        build:
+            context: .
+            dockerfile: apps/auth/Dockerfile
+        ports:
+            - '3000:3000'
+        environment:
+            - NODE_ENV=developtment
+
+    urls:
+        build:
+            context: .
+            dockerfile: apps/url_shortener/Dockerfile
+        ports:
+            - '3001:3001'
+        environment:
+            - NODE_ENV=developtment
+
+    auth:
+        build:
+            context: .
+            dockerfile: apps/users/Dockerfile
+        ports:
+            - '3002:3002'
+        environment:
+            - NODE_ENV=developtment
