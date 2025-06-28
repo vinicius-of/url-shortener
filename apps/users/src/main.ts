@@ -1,18 +1,18 @@
 import { NestFactory } from '@nestjs/core';
 import { UsersModule } from './users.module';
-import { Transport, MicroserviceOptions } from '@nestjs/microservices';
+import { ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
-  const app = await NestFactory.createMicroservice<MicroserviceOptions>(UsersModule, {
-    transport: Transport.TCP,
-    options: {
-      port: 3001,
-      retryAttempts: 3,
-      retryDelay: 1000,
-    },
-  });
+    const app = await NestFactory.create(UsersModule, {
+        // FIXME: Apply certificate if possible and apply cors protection
+        cors: {},
+    });
+    app.useGlobalPipes(new ValidationPipe());
 
-  app.listen();
+    const configService = app.get(ConfigService);
+    const port = configService.get<number>('USERS_API_PORT') || 3000;
+    app.listen(port);
 }
 
 bootstrap();
