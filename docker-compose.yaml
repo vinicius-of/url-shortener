@@ -1,29 +1,50 @@
-version: '3.9'
-
 services:
     users:
         build:
             context: .
-            dockerfile: apps/auth/Dockerfile
+            dockerfile: apps/users/Dockerfile
         ports:
-            - '3000:3000'
+            - '3001:3001'
         environment:
             - NODE_ENV=developtment
+            - URLS_API=http://urls/3002/urls
+            - AUTH_API_PORT=http://auth:3003/auth
+            - JWT_SECRET=salt
+            - EXPIRES_IN=5m
+            - BCRYPT_SALT=10
+            - SQLITE_SYNCHRONIZE=true
+        volumes:
+            - ./volumes/users:/app/db
 
     urls:
         build:
             context: .
             dockerfile: apps/url_shortener/Dockerfile
         ports:
-            - '3001:3001'
+            - '3002:3002'
         environment:
             - NODE_ENV=developtment
+            - USERS_API=http://users:3001/users
+            - AUTH_API_PORT=http://auth:3003/auth
+            - JWT_SECRET=salt
+            - EXPIRES_IN=5m
+            - BCRYPT_SALT=10
+            - SQLITE_SYNCHRONIZE=true
+        volumes:
+            - ./volumes/urls:/app/db
 
     auth:
         build:
             context: .
-            dockerfile: apps/users/Dockerfile
+            dockerfile: apps/auth/Dockerfile
         ports:
-            - '3002:3002'
+            - '3003:3003'
         environment:
             - NODE_ENV=developtment
+            - USERS_API=http://users:3001/users
+            - JWT_SECRET=salt
+            - EXPIRES_IN=5m
+            - BCRYPT_SALT=10
+            - SQLITE_SYNCHRONIZE=true
+        volumes:
+            - ./volumes/auth:/app/db
