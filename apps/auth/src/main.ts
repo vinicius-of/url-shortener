@@ -10,7 +10,8 @@ async function bootstrap() {
     });
     app.useGlobalPipes(new ValidationPipe());
     const configService = app.get(ConfigService);
-    const port = configService.get<number>('AUTH_API_PORT') || 3002;
+    const port = configService.get<number>('AUTH_API_PORT') || 3003;
+    console.log('Auth Service Port: ', port);
     app.listen(port);
 }
 

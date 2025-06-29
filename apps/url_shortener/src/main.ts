@@ -11,7 +11,8 @@ async function bootstrap() {
     app.useGlobalPipes(new ValidationPipe());
 
     const configService = app.get(ConfigService);
-    const port = configService.get<number>('URLS_API_PORT') || 3001;
+    const port = configService.get<number>('URLS_API_PORT') || 3002;
+    console.log('Urls Service Port: ', port);
     app.listen(port);
 }
 

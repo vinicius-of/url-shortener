@@ -6,14 +6,24 @@ import { ShortUrlEntity } from './entities/shortUrl.entity';
 import { HttpModule } from '@nestjs/axios';
 import { GlobalConfigModule } from '@app/config';
 import { GuardsModule } from '@app/guards/guards.module';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
     imports: [
-        TypeOrmModule.forRoot({
-            type: 'better-sqlite3',
-            database: './db/urls.sqlite3',
-            autoLoadEntities: true,
-            synchronize: true,
+        TypeOrmModule.forRootAsync({
+            imports: [GlobalConfigModule],
+            inject: [ConfigService],
+            useFactory: (configService: ConfigService) => {
+                const database = configService.get('DATABASE_CONFIG.dirUrls');
+                const isDev = configService.get('SQLITE_SYNCHRONIZE') === 'true';
+
+                return {
+                    type: 'better-sqlite3',
+                    database,
+                    autoLoadEntities: true,
+                    synchronize: isDev,
+                };
+            },
         }),
         TypeOrmModule.forFeature([ShortUrlEntity]),
         HttpModule,

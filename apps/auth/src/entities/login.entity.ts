@@ -15,6 +15,11 @@ export class LoginEntity implements Login {
     })
     email: string;
 
+    @Column('text', {
+        unique: true,
+    })
+    userId: string;
+
     @Column({
         type: 'text',
     })
