@@ -17,7 +17,7 @@ import {
     NotFoundException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { LoginEntity } from '../entities/login.entity';
+import { LoginEntity } from './entities/login.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { hash, compare, hashSync } from 'bcrypt';
@@ -38,7 +38,7 @@ export class AuthService implements SharedAuthService {
     ) {}
 
     async createLogin(data: CreateLoginDto): Promise<Login> {
-        let loginCreated;
+        let loginCreated: LoginEntity;
 
         try {
             const loginExists = await this.loginRepository.findOneBy({
@@ -52,7 +52,7 @@ export class AuthService implements SharedAuthService {
             const salt = Number(this.configService.get<number>('BCRYPT_SALT'));
             const hashPassword = await hashSync(data.password, salt!);
 
-            loginCreated = await this.loginRepository.save({
+            loginCreated = await this.loginRepository.create({
                 email: data.email,
                 password: hashPassword,
             });
@@ -67,17 +67,25 @@ export class AuthService implements SharedAuthService {
             });
         }
 
-        const userCreated = await this.createUserFromUsersApi({
-            name: data.name,
-            email: data.email,
-        });
+        try {
+            const userCreated = await this.createUserFromUsersApi({
+                name: data.name,
+                email: data.email,
+            });
 
-        if (!userCreated) {
-            console.error({
-                message: AUTH_ERROR_MESSAGES.SERVICE_ERROR,
+            loginCreated.userId = userCreated.id;
+        } catch (error) {
+            if (!(error instanceof InternalServerErrorException)) {
+                throw error;
+            }
+
+            throw new InternalServerErrorException({
+                message: AUTH_ERROR_MESSAGES.LOGIN_NOT_CREATED,
+                error: error,
             });
         }
 
+        await this.loginRepository.insert(loginCreated);
         return loginCreated;
     }
 
@@ -93,7 +101,7 @@ export class AuthService implements SharedAuthService {
         const passwordAccepted = await compare(data.password, acceptedLogin.password);
 
         if (!passwordAccepted) {
-            throw new NotFoundException(AUTH_ERROR_MESSAGES.USER_NOT_FOUND);
+            throw new NotFoundException(AUTH_ERROR_MESSAGES.PASSWORD_INCORRECT);
         }
 
         const tokenPayload = {
@@ -105,7 +113,8 @@ export class AuthService implements SharedAuthService {
 
         return {
             accessToken,
-            userId: acceptedLogin.id,
+            id: acceptedLogin.id,
+            userId: acceptedLogin.userId,
             email: acceptedLogin.email,
         };
     }

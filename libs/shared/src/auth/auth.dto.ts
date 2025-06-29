@@ -1,4 +1,11 @@
-import { IsEmail, IsNotEmpty, IsString, IsStrongPassword, MaxLength } from 'class-validator';
+import {
+    IsEmail,
+    IsNotEmpty,
+    IsOptional,
+    IsString,
+    IsStrongPassword,
+    MaxLength,
+} from 'class-validator';
 import { Login } from './auth.contract';
 
 export class AuthenticateDto implements Login {

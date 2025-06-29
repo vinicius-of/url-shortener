@@ -24,6 +24,7 @@ export class UsersController {
         return await this.usersService.findUserByEmail(params);
     }
 
+    @Public()
     @Put()
     async addCountLinkToUser(@Body() data: AddCountLinkDto) {
         if (!data?.id) {

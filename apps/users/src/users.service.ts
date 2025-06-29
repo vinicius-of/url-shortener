@@ -15,7 +15,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserEntity } from './entities/user/user.entity';
+import { UserEntity } from './entities/user.entity';
 
 @Injectable()
 export class UsersService implements SharedUserService {
@@ -26,10 +26,14 @@ export class UsersService implements SharedUserService {
 
     async createUser(data: CreateUserDto): Promise<User> {
         try {
-            return await this.userRepository.save({
+            const entity = this.userRepository.create({
                 email: data.email,
                 name: data.name,
             });
+
+            await this.userRepository.insert(entity);
+
+            return entity;
         } catch (error) {
             throw new BadRequestException(USERS_ERROR_MESSAGES.USER_ALREADY_EXISTS);
         }

@@ -9,6 +9,7 @@ export enum AUTH_ERROR_MESSAGES {
     LOGIN_ALREADY_EXISTS = 'This user already exists',
     LOGIN_NOT_CREATED = 'This login could not be created',
     SERVICE_NOT_RESPONDED = 'This service is not responding.',
+    PASSWORD_INCORRECT = 'Password incorrect',
 }
 
 export enum URL_ERROR_MESSAGES {

@@ -5,8 +5,9 @@ export interface SignInData {
 
 export interface AuthResult {
     accessToken: string;
-    userId: string;
+    id: string;
     email: string;
+    userId?: string;
 }
 
 export interface Login {
