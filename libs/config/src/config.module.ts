@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService, ConfigModule as NestConfigModule } from '@nestjs/config';
-import { API_HOSTS } from './config.constants';
+import { API_HOSTS, DATABASE_CONFIG } from './config.constants';
 
 @Module({
     imports: [
         NestConfigModule.forRoot({
             envFilePath: '.env',
             isGlobal: true,
-            load: [API_HOSTS],
+            load: [API_HOSTS, DATABASE_CONFIG],
         }),
         JwtModule.registerAsync({
             global: true,
