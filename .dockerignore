@@ -1,6 +1,9 @@
 db
+migrations
 node_modules
+volumes
 .env
+.env.example
 dist
 *.log
 *.md

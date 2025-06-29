@@ -10,12 +10,11 @@
   },
   "engineStrict": true,
   "scripts": {
-    "build": "nest build",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
-    "start": "nest start",
+    "build": "nest build --all",
     "start:dev": "concurrently -c \"cyan.bold,red.bold,green.bold\" \"yarn:start:dev-*\"",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/apps/back-end_challenge/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -24,7 +23,14 @@
     "test:e2e": "jest --config ./apps/back-end_challenge/test/jest-e2e.json",
     "start:dev-users": "nest start --watch users",
     "start:dev-auth": "nest start --watch auth",
-    "start:dev-url": "nest start --watch url_shortener"
+    "start:dev-url": "nest start --watch url_shortener",
+    "migration:generate:users": "yarn typeorm migration:generate ./migrations/users/CreateUsersTable -d apps/users/src/entities/datasource.ts",
+    "migration:generate:auth": "yarn typeorm migration:generate ./migrations/auth/CreateLoginTable -d apps/auth/src/entities/datasource.ts",
+    "migration:generate:urls": "yarn typeorm migration:generate ./migrations/url_shortener/CreateUrlsTable -d apps/url_shortener/src/entities/datasource.ts",
+    "migration:run:users": "yarn typeorm migration:run -d apps/users/src/entities/datasource.ts",
+    "migration:run:auth": "yarn typeorm migration:run -d apps/auth/src/entities/datasource.ts",
+    "migration:run:urls": "yarn typeorm migration:run -d apps/url_shortener/src/entities/datasource.ts",
+    "migration:run:all": "ts-node run-migrations.ts"
   },
   "dependencies": {
     "@nestjs/axios": "^4.0.0",
