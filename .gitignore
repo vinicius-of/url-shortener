@@ -4,6 +4,7 @@
 /build
 /db
 /migrations
+/volumes
 
 # Logs
 logs
