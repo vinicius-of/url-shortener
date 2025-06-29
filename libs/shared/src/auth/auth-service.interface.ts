@@ -1,5 +1,5 @@
-import { AuthResult, Login, SignInData } from './auth.contract';
-import { AuthenticateDto, CreateLoginDto, ValidateUserDto } from './auth.dto';
+import { AuthResult, Login } from './auth.contract';
+import { AuthenticateDto, CreateLoginDto } from './auth.dto';
 
 export interface AuthService {
     autheticate(data: AuthenticateDto): Promise<AuthResult>;

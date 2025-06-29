@@ -7,7 +7,6 @@ import { LoginEntity } from './entities/login.entity';
 import { HttpModule } from '@nestjs/axios';
 import { GuardsModule } from '@app/guards/guards.module';
 import { ConfigService } from '@nestjs/config';
-import path from 'path';
 
 @Module({
     imports: [
@@ -16,8 +15,8 @@ import path from 'path';
             imports: [GlobalConfigModule],
             inject: [ConfigService],
             useFactory: (configService: ConfigService) => {
-                const database = configService.get('DATABASE_CONFIG.dirAuth');
-                const isDev = configService.get('SQLITE_SYNCHRONIZE') === 'true';
+                const database: string = configService.get<string>('DATABASE_CONFIG.dirAuth')!;
+                const isDev: boolean = configService.get<string>('SQLITE_SYNCHRONIZE') === 'true';
 
                 return {
                     type: 'better-sqlite3',

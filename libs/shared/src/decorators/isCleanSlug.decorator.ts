@@ -2,14 +2,14 @@ import { registerDecorator, ValidationOptions } from 'class-validator';
 import { containsBlacklistWord } from '../utils/containsBlacklistWord';
 
 export function isCleanSlug(validationOptions?: ValidationOptions) {
-    return (obj: Object, propertyName: string) => {
+    return (obj: object, propertyName: string) => {
         registerDecorator({
             name: 'isCleanSlug',
             target: obj.constructor,
             options: validationOptions,
             propertyName,
             validator: {
-                validate(value: string, _args) {
+                validate(value: string) {
                     return typeof containsBlacklistWord(value) === 'string' ? false : true;
                 },
                 defaultMessage(_args) {

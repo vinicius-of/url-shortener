@@ -20,7 +20,7 @@ import { JwtService } from '@nestjs/jwt';
 import { LoginEntity } from './entities/login.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { hash, compare, hashSync } from 'bcrypt';
+import { compare, hashSync } from 'bcrypt';
 import { ConfigService, ConfigType } from '@nestjs/config';
 import { API_HOSTS } from '@app/config/config.constants';
 import { HttpService } from '@nestjs/axios';
@@ -50,9 +50,9 @@ export class AuthService implements SharedAuthService {
             }
 
             const salt = Number(this.configService.get<number>('BCRYPT_SALT'));
-            const hashPassword = await hashSync(data.password, salt!);
+            const hashPassword = hashSync(data.password, salt);
 
-            loginCreated = await this.loginRepository.create({
+            loginCreated = this.loginRepository.create({
                 email: data.email,
                 password: hashPassword,
             });

@@ -1,5 +1,5 @@
 import { AuthenticateDto, CreateLoginDto } from '@app/shared';
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Public } from '@app/shared/decorators';
 

@@ -1,6 +1,4 @@
 import {
-    BadRequestException,
-    HttpException,
     Inject,
     Injectable,
     InternalServerErrorException,
@@ -24,8 +22,8 @@ import { generateSuffixCode, generateUrlCode } from './utils/generateUrlCode';
 import { API_HOSTS } from '@app/config/config.constants';
 import { HttpService } from '@nestjs/axios';
 import { ConfigType } from '@nestjs/config';
-import { catchError, first, firstValueFrom, lastValueFrom } from 'rxjs';
-import { Axios, AxiosError } from 'axios';
+import { catchError, firstValueFrom } from 'rxjs';
+import { AxiosError } from 'axios';
 
 @Injectable()
 export class UrlShortenerService implements SharedUrlService {
@@ -53,7 +51,7 @@ export class UrlShortenerService implements SharedUrlService {
                     clicks: () => 'clicks + 1',
                 })
                 .where('id = :id', {
-                    id: shortUrlFound!.id,
+                    id: shortUrlFound.id,
                 })
                 .execute();
 
@@ -141,7 +139,7 @@ export class UrlShortenerService implements SharedUrlService {
         return softDeleteResult.affected! > 0;
     }
 
-    async addCountToUser(data: AddCountLinkDto) {
+    async addCountToUser(data: AddCountLinkDto): Promise<void> {
         const response = await this.axios
             .put<void, AddCountLinkDto>(`${this.api_hosts.USERS_HOST}`, data)
             .pipe(

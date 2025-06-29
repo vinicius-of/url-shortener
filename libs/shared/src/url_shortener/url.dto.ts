@@ -7,7 +7,6 @@ import {
     IsDefined,
     ValidateNested,
     IsString,
-    IsEmpty,
 } from 'class-validator';
 import { ShortUrl } from './url.contract';
 import { isCleanSlug } from '../decorators/isCleanSlug.decorator';

@@ -4,6 +4,11 @@ import { SignInData } from '@app/shared';
 import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC_ASSIGNED } from '@app/shared/decorators/publicEndpoint.decorator';
 
+interface JwtPayload {
+    email: string;
+    sub: string;
+}
+
 @Injectable()
 export class AuthGuard implements CanActivate {
     constructor(
@@ -30,7 +35,7 @@ export class AuthGuard implements CanActivate {
         }
 
         try {
-            const tokenPayload = await this.jwtService.verifyAsync(token);
+            const tokenPayload = await this.jwtService.verifyAsync<JwtPayload>(token);
 
             request.user = {
                 email: tokenPayload.email,
@@ -38,7 +43,7 @@ export class AuthGuard implements CanActivate {
             } as SignInData;
 
             return true;
-        } catch (error) {
+        } catch (error: unknown) {
             throw new UnauthorizedException();
         }
     }

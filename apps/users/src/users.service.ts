@@ -34,7 +34,7 @@ export class UsersService implements SharedUserService {
             await this.userRepository.insert(entity);
 
             return entity;
-        } catch (error) {
+        } catch (error: unknown) {
             throw new BadRequestException(USERS_ERROR_MESSAGES.USER_ALREADY_EXISTS);
         }
     }

@@ -14,8 +14,8 @@ import { ConfigService } from '@nestjs/config';
             imports: [GlobalConfigModule],
             inject: [ConfigService],
             useFactory: (configService: ConfigService) => {
-                const database = configService.get('DATABASE_CONFIG.dirUrls');
-                const isDev = configService.get('SQLITE_SYNCHRONIZE') === 'true';
+                const database: string = configService.get<string>('DATABASE_CONFIG.dirUrls')!;
+                const isDev: boolean = configService.get<string>('SQLITE_SYNCHRONIZE') === 'true';
 
                 return {
                     type: 'better-sqlite3',

@@ -1,4 +1,4 @@
-import { ConsoleLogger, ValidationPipe } from '@nestjs/common';
+import { ValidationPipe } from '@nestjs/common';
 import { UrlShortenerModule } from './url_shortener.module';
 import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
