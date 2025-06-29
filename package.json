@@ -30,7 +30,8 @@
     "migration:run:users": "yarn typeorm migration:run -d apps/users/src/entities/datasource.ts",
     "migration:run:auth": "yarn typeorm migration:run -d apps/auth/src/entities/datasource.ts",
     "migration:run:urls": "yarn typeorm migration:run -d apps/url_shortener/src/entities/datasource.ts",
-    "migration:run:all": "ts-node run-migrations.ts"
+    "migration:run:all": "ts-node run-migrations.ts",
+    "prepare": "husky"
   },
   "dependencies": {
     "@nestjs/axios": "^4.0.0",
@@ -70,6 +71,7 @@
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.2",
     "globals": "^16.0.0",
+    "husky": "^9.1.7",
     "jest": "^29.7.0",
     "prettier": "^3.4.2",
     "source-map-support": "^0.5.21",
