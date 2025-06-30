@@ -82,7 +82,7 @@ AUTH_API=http://localhost:3003/auth
 SQLITE_SYNCHRONIZE=true
 ```
 
-Esse arquivo é essencial para que os serviços funcionem corretamente somente em ambiente **local**.
+Esse arquivo é essencial para que os serviços funcionem corretamente somente em ambiente **local**. Caso deseje, no repositório há um arquivo chamado `.env.local.example`. Este arquivo já vem com todas as configurações para execução rápida em ambiente local. Só é necessário renomear para `.env` que estará pronto.
 
 ### Executando os serviços
 
