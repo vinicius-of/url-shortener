@@ -1,98 +1,310 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# URL Shortener – Microsserviços com NestJS e Docker
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Este projeto é uma aplicação de encurtamento de URLs construída com arquitetura de multiplos serviços utilizando o framework NestJS. Os serviços são organizados em três domínios principais:
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+- **Auth**: Autenticação e geração de tokens
+- **Users**: Gerenciamento de usuários
+- **URL Shortener**: Criação e redirecionamento de URLs encurtadas
 
-## Description
+A aplicação pode ser executada localmente com Node.js e Yarn, ou em ambiente isolado com Docker e Docker Compose.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+---
 
-## Project setup
+## Clonando o repositório
+
+Antes de qualquer coisa, é necessário ter o Git instalado para clonar o projeto.  
+Você pode instalar o Git seguindo as instruções oficiais:
+
+- [Instalar Git no Windows](https://git-scm.com/download/win)
+- [Instalar Git no macOS](https://git-scm.com/download/mac)
+- [Instalar Git no Linux](https://git-scm.com/download/linux)
+
+Clone o repositório com:
 
 ```bash
-$ yarn install
+git clone https://github.com/seu-usuario/seu-repositorio.git
+cd seu-repositorio
 ```
 
-## Compile and run the project
+## 1. Executando localmente com Node.js, Yarn e NestJS
+
+Este projeto pode ser executado localmente utilizando Node.js, Yarn e o NestJS CLI. Essa abordagem é ideal para desenvolvimento ativo, testes e depuração. **Não é um projeto preparado para produção, então use com cautela.**
+
+### Requisitos
+
+Para rodar o projeto localmente, você precisará ter as seguintes ferramentas instaladas:
+
+- Node.js versão **>= 22.16.0**
+- Yarn
+- NestJS CLI
+- Git
+
+Recomenda-se o uso do NVM (Node Version Manager) para gerenciar múltiplas versões do Node.js no seu sistema.
+
+### Instalação das ferramentas
+
+Você pode instalar as ferramentas necessárias utilizando os links abaixo:
+
+- [Instalar Node.js](https://nodejs.org/en/download)
+- [Instalar Yarn](https://chore-update--yarnpkg.netlify.app/pt-BR/docs/install)
+- [Instalar NestJS CLI](https://docs.nestjs.com/cli/overview)
+- [Instalar NVM (Node Version Manager)](https://github.com/nvm-sh/nvm)
+
+Com o NVM instalado, você pode instalar a versão correta do Node.js com os comandos:
 
 ```bash
-# development
-$ yarn run start
-
-# watch mode
-$ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
+nvm install lts
+nvm use lts
 ```
 
-## Run tests
+Após clonar o repositório, instale todas as dependências e devDependencies com:
 
 ```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
+yarn install
 ```
 
-## Deployment
+### Configurando variáveis de ambiente
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+Antes de iniciar os serviços, é necessário configurar o arquivo `.env` na raiz do projeto. Um exemplo de configuração mínima é:
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+```conf
+APP_NAME=
+NODE_ENV=development
+
+JWT_SECRET=salt
+EXPIRES_IN=5m
+BCRYPT_SALT=10
+
+USERS_API=http://localhost:3001/users
+URLS_API=http://localhost:3002/urls
+AUTH_API=http://localhost:3003/auth
+
+SQLITE_SYNCHRONIZE=true
+```
+
+Esse arquivo é essencial para que os serviços funcionem corretamente somente em ambiente **local**.
+
+### Executando os serviços
+
+Para iniciar todos os microsserviços simultaneamente em modo de desenvolvimento, utilize:
 
 ```bash
-$ yarn install -g @nestjs/mau
-$ mau deploy
+yarn run start:dev
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Esse comando executa os três serviços (users, auth e url_shortener) em paralelo com hot reload e [concurrently](https://github.com/open-cli-tools/concurrently).
 
-## Resources
+Caso deseje iniciar apenas um serviço específico, utilize um dos comandos abaixo:
 
-Check out a few resources that may come in handy when working with NestJS:
+- App de Usuários
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```bash
+yarn start:dev:users
+```
 
-## Support
+- App de Autenticação
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```bash
+yarn start:dev:auth
+```
 
-## Stay in touch
+- App de Encurtamento de URLs
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```bash
+yarn start:dev:urls
+```
 
-## License
+Após esses passos, seu ambiente de desenvolvimento estará pronto para uso. Você poderá modificar o código, testar funcionalidades e desenvolver novas features com suporte completo a hot reload e ferramentas de depuração.
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+## 2. Executando com Docker e Docker Compose
+
+Este projeto também pode ser executado em ambiente isolado utilizando Docker e Docker Compose. Essa abordagem é ideal para rodar a aplicação de forma padronizada, sem depender do ambiente local de desenvolvimento.
+
+### Requisitos
+
+Para utilizar essa abordagem, é necessário ter o Docker e o Docker Compose instalados no seu sistema. Abaixo estão os links oficiais para instalação em diferentes sistemas operacionais:
+
+- **Windows**:
+    - [Instalar Docker Desktop](https://docs.docker.com/desktop/install/windows-install/)
+
+- **macOS**:
+    - [Instalar Docker Desktop](https://docs.docker.com/desktop/install/mac-install/)
+
+- **Ubuntu/Linux**:
+    - [Instalar Docker Engine no Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
+    - [Instalar Docker Compose no Linux](https://docs.docker.com/compose/install/linux/)
+
+### Verificando a instalação
+
+Após a instalação, abra o terminal e execute o seguinte comando para verificar se o Docker está instalado corretamente:
+
+```bash
+docker -v
+docker compose --help
+```
+
+Se os comandos retornar a versão do Docker e a lista de ajuda do Docker Compose, a instalação foi concluída com sucesso.
+
+### Executando os serviços com Docker Compose
+
+Com o Docker instalado, você pode levantar todos os serviços da aplicação com o seguinte comando:
+
+```bash
+docker compose up -d
+```
+
+Esse comando faz o seguinte:
+
+- Lê o arquivo `docker-compose.yaml` na raiz do projeto
+
+- Constrói as imagens Docker de cada serviço (caso ainda não existam)
+
+- Cria os containers correspondentes
+
+- Inicia os serviços em segundo plano (modo _detached_)
+
+Aguarde alguns segundos até que o processo de build e inicialização seja concluído.
+
+### Verificando os serviços em execução
+
+Para verificar se os serviços foram iniciados
+corretamente, execute:
+
+```bash
+docker compose ps
+```
+
+Esse comando lista todos os containers em execução, suas portas expostas e o status atual de cada serviço.
+
+## 3. Testando os Endpoints da Aplicação
+
+Após levantar os serviços, você pode testar os endpoints expostos por cada um dos microsserviços: usuários, autenticação e encurtamento de URLs.
+
+Algumas rotas exigem autenticação via token JWT. Para essas rotas, é necessário primeiro realizar o login e obter um token válido, que deve ser incluído no cabeçalho `Authorization` das requisições subsequentes.
+
+### Exemplo de chamada para encurtar uma URL
+
+A rota `/urls/shorten` permite criar uma URL encurtada a partir de uma URL completa. Abaixo estão exemplos de como fazer essa requisição usando `curl` e `wget`.
+
+#### Usando `curl`
+
+```bash
+curl --request POST \
+  --url http://localhost:3002/urls/shorten \
+  --header 'Content-Type: application/json' \
+  --header 'User-Agent: insomnia/11.2.0' \
+  --data '{
+    "fullUrl": "http://youtube.com"
+}'
+```
+
+Usando `wget`
+
+```bash
+wget --quiet \
+  --method POST \
+  --header 'Content-Type: application/json' \
+  --header 'User-Agent: insomnia/11.2.0' \
+  --body-data '{\n  "fullUrl": "http://youtube.com"\n}' \
+  --output-document \
+  - http://localhost:3002/urls/shorten
+```
+
+### Endpoints protegidos com JWT
+
+Alguns endpoints exigem autenticação. Para acessá-los:
+
+1. Faça login através do serviço de autenticação (/auth/login) com suas credenciais.
+
+2. Copie o token JWT retornado.
+
+3. Inclua o token no cabeçalho das requisições protegidas:
+
+```http
+Authorization: Bearer <seu_token_aqui>
+```
+
+Certifique-se de substituir `<seu_token_aqui>` pelo token real obtido na resposta do login.
+
+Com isso, você poderá testar todos os endpoints da aplicação, incluindo aqueles que exigem autenticação.
+
+## 4. Fazendo chamadas através do Docker com NGINX como API Gateway
+
+Após levantar os serviços com Docker utilizando o comando `docker compose up -d`, todas as requisições externas devem ser feitas através do NGINX, que atua como um API Gateway.
+
+O NGINX é responsável por:
+
+- Encaminhar as requisições para os microsserviços corretos
+- Controlar o acesso às rotas públicas e privadas
+- Aplicar limites de requisições por IP (rate limiting)
+- Bloquear o acesso direto às APIs internas, permitindo apenas chamadas através do gateway
+
+### Rotas disponíveis via NGINX
+
+No modo Docker, apenas quatro rotas estão expostas publicamente através do NGINX. Todas elas estão configuradas no arquivo `nginx/default.conf` e são acessíveis pela porta definida no container (por padrão, porta 80).
+
+As rotas disponíveis são:
+
+- `POST /url/shorten`: cria uma URL encurtada
+- `GET /r/(código)`: redireciona uma URL encurtada
+- `POST /signup`: cria um novo usuário
+- `POST /login`: autentica um usuário e retorna um token JWT
+
+### Acessando as rotas
+
+Com os serviços em execução, você pode fazer chamadas para essas rotas utilizando `curl`, `wget`, Postman ou qualquer outra ferramenta HTTP. Todas as chamadas devem ser feitas para `http://localhost` (ou o IP do host, se estiver em outro ambiente), utilizando os caminhos definidos acima.
+
+Exemplo de chamada para encurtar uma URL:
+
+```bash
+curl --request POST \
+  --url http://localhost/url/shorten \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "fullUrl": "http://youtube.com"
+}'
+```
+
+## 5. Possíveis melhorias para o projeto
+
+Este projeto pode ser expandido e aprimorado com diversas melhorias técnicas e operacionais. Abaixo estão algumas sugestões que podem ser implementadas para torná-lo mais robusto, escalável e observável.
+
+### Implementar GitHub Actions
+
+A integração de pipelines de CI/CD com GitHub Actions permitiria automatizar tarefas como testes, linting, build e deploy. Isso garantiria maior consistência no processo de desenvolvimento e ajudaria a detectar falhas antes da publicação de código.
+
+### Métricas e observabilidade
+
+Adicionar ferramentas de observabilidade é fundamental para entender o comportamento da aplicação em produção. Isso inclui:
+
+- Logs estruturados com ferramentas como Winston ou Pino
+- Métricas de desempenho com Prometheus e Grafana
+- Rastreamento distribuído com OpenTelemetry ou Jaeger
+
+Esses recursos ajudam a identificar gargalos, falhas e padrões de uso.
+
+### Cache em memória para URLs mais acessadas
+
+Uma melhoria de desempenho seria implementar um mecanismo de cache em memória (como Redis ou até mesmo um cache local com LRU) para armazenar as URLs mais clicadas. Isso reduziria o tempo de resposta para requisições frequentes e diminuiria a carga sobre o banco de dados.
+
+### Substituir o banco de dados por uma tecnologia mais robusta
+
+Atualmente, o projeto utiliza SQLite, que é adequado para desenvolvimento e testes locais. Para ambientes de produção, seria recomendável adotar um banco de dados mais robusto e escalável, como:
+
+- MySQL
+- MariaDB
+- PostgreSQL
+- MongoDB (caso deseje um modelo NoSQL)
+
+Essas tecnologias oferecem maior desempenho, suporte a concorrência e recursos avançados de replicação e backup.
+
+### Implementar um orquestrador como Kubernetes
+
+Para ambientes de produção com múltiplas instâncias e necessidade de escalabilidade automática, a adoção de um orquestrador como o Kubernetes permitiria:
+
+- Escalonamento automático de serviços com base em carga
+- Balanceamento de carga entre réplicas
+- Monitoramento e reinício automático de containers com falha
+- Deploys controlados com estratégias como rolling updates
+
+Essa abordagem tornaria o projeto mais resiliente e preparado para ambientes distribuídos em larga escala.
