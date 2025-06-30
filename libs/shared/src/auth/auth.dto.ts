@@ -18,12 +18,6 @@ export class AuthenticateDto implements Login {
     password: string;
 }
 
-export class ValidateUserDto implements Pick<Login, 'email'> {
-    @IsNotEmpty()
-    @IsEmail()
-    email: string;
-}
-
 export class CreateLoginDto implements Login {
     @IsNotEmpty()
     @IsEmail()

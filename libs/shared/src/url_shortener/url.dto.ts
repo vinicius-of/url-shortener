@@ -40,7 +40,9 @@ export class EditUrlDto {
     @IsDefined()
     @ValidateNested()
     @Type(() => ShortUrl)
-    update: Partial<Pick<ShortUrl, 'fullUrl'>>;
+    update: {
+        fullUrl: string;
+    };
 }
 
 export class RemoveUrlDto implements Pick<ShortUrl, 'id'> {

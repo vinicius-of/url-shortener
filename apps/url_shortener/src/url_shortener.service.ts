@@ -59,7 +59,7 @@ export class UrlShortenerService implements SharedUrlService {
         } catch (error) {
             throw new InternalServerErrorException(
                 {
-                    message: URL_ERROR_MESSAGES.URL_NOT_FOUND,
+                    message: URL_ERROR_MESSAGES.CLICK_NOT_COUNTED,
                 },
                 {
                     cause: new Error(error),
@@ -89,7 +89,7 @@ export class UrlShortenerService implements SharedUrlService {
         } catch (error) {
             throw new InternalServerErrorException(
                 {
-                    message: URL_ERROR_MESSAGES.CLICK_NOT_COUNTED,
+                    message: URL_ERROR_MESSAGES.URL_NOT_CREATED,
                     error,
                 },
                 {
