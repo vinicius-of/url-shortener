@@ -1,0 +1,567 @@
+type: collection.insomnia.rest/5.0
+name: Scratch Pad
+meta:
+  id: wrk_scratchpad
+  created: 1726717603335
+  modified: 1726717603335
+  description: ""
+collection:
+  - name: Springboot-Products-API
+    meta:
+      id: fld_05a3439ceac346c09f0fbfe5a53333f9
+      created: 1726717651386
+      modified: 1726717651386
+      sortKey: -1726717651386
+      description: ""
+  - name: BTG-Pactual-OrderMs
+    meta:
+      id: fld_a4d694f022b142a0939745b1ba1e7592
+      created: 1738555891428
+      modified: 1738555891428
+      sortKey: -1738555891428
+      description: ""
+  - name: Product-Catalog-Ms
+    meta:
+      id: fld_d38c4f37aa794f409c26e90ded1990f1
+      created: 1738690682975
+      modified: 1738690696476
+      sortKey: -1738690682975
+      description: ""
+    children:
+      - name: Produto
+        meta:
+          id: fld_a087222fa35b4991b92326612c292d81
+          created: 1738690785768
+          modified: 1738692281117
+          sortKey: -1738690982741
+          description: ""
+      - name: Proprietario
+        meta:
+          id: fld_0f8181ab3f8f49189dcab8441ff532e1
+          created: 1738690791454
+          modified: 1738690950900
+          sortKey: -1738690791454
+          description: ""
+      - name: Categoria
+        meta:
+          id: fld_e8664a53580b4aff82ac5e483deb5392
+          created: 1738690982641
+          modified: 1738690982641
+          sortKey: -1738690982641
+          description: ""
+  - name: e2e-coverage-aula
+    meta:
+      id: fld_3c485a17abeb42bb83318ce492e15024
+      created: 1741741278580
+      modified: 1741741278580
+      sortKey: -1741741278580
+      description: ""
+  - name: Finances-Dashboard
+    meta:
+      id: fld_8ef977e56da8414386db18bdb4da7fb1
+      created: 1742923548124
+      modified: 1742923555641
+      sortKey: -1742923548124
+      description: ""
+    children:
+      - name: Tesouro Direto
+        meta:
+          id: fld_25f22cbb16e44e14bdbd7350d092af76
+          created: 1742926468204
+          modified: 1742926469656
+          sortKey: -1742926458821
+          description: ""
+  - name: Url-shortener
+    meta:
+      id: fld_7a9e559224214d29a3b65f33618efeff
+      created: 1751056332290
+      modified: 1751056335216
+      sortKey: -1751056332290
+      description: ""
+    children:
+      - name: Users
+        meta:
+          id: fld_bedd44b75efb410ea72528b60da9c789
+          created: 1751056338841
+          modified: 1751056338841
+          sortKey: -1751056338841
+          description: ""
+        children:
+          - url: "{{ _.users_host }}/users"
+            name: Create User
+            meta:
+              id: req_288b967816b64f0ea192a24d1ca2b499
+              created: 1751084428215
+              modified: 1751225440540
+              isPrivate: false
+              description: ""
+              sortKey: -1751084428215
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"email": "marcel3@gmail.com",
+                	"name": "marcelo"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.2.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.users_host }}/users/marcelo@gmail.com"
+            name: Find User by Email
+            meta:
+              id: req_f348390dfbc94f22a237ed95c6d0dba2
+              created: 1751084715914
+              modified: 1751228640058
+              isPrivate: false
+              description: ""
+              sortKey: -1751084715914
+            method: GET
+            parameters:
+              - id: pair_fb509ac74f8b4a138c4688ea9fb1c7a5
+                name: ""
+                value: ""
+                description: ""
+                disabled: false
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.users_host }}/users"
+            name: Adicionar contagem
+            meta:
+              id: req_e6ae32499a0343f1954f439425b5af33
+              created: 1751136244371
+              modified: 1751227131266
+              isPrivate: false
+              description: ""
+              sortKey: -1751136244371
+            method: PUT
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"id": "24eb49ef-e42a-434b-afdb-e59d5ff8a1f5"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.2.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: UrlShotener
+        meta:
+          id: fld_c36df758cbd64afa950d901381a65431
+          created: 1751056348990
+          modified: 1751056348990
+          sortKey: -1751056348990
+          description: ""
+        children:
+          - url: "{{ _.url_shortener_host }}/urls/shorten"
+            name: Create Short URL
+            meta:
+              id: req_e27ce93005a94749a1d8f0db6b0d8e66
+              created: 1751130290647
+              modified: 1751228758841
+              isPrivate: false
+              description: ""
+              sortKey: -1751130329918
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"fullUrl": "http://youtube.com"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.2.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.url_shortener_host }}/urls/list/b1ce06b6-526e-4efa-a430-1e8752a52353"
+            name: List All URLs from User
+            meta:
+              id: req_bc81b4b8cd21448d88b6f829b23c7f51
+              created: 1751130298729
+              modified: 1751228801024
+              isPrivate: false
+              description: ""
+              sortKey: -1751130329818
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+                id: pair_0926356b597f49e69f40f2f9ea8aa658
+              - id: pair_b6391661f1f74168a19b3a30f73e9c8c
+                name: Authorization
+                value: "{{ _.jwt_token }}"
+                description: ""
+                disabled: false
+                type: text
+                multiline: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.url_shortener_host }}/urls"
+            name: Edit URL
+            meta:
+              id: req_172ae7b11b1f4e48b3c4dacb08ce7cc6
+              created: 1751130323843
+              modified: 1751228867283
+              isPrivate: false
+              description: ""
+              sortKey: -1751130329743
+            method: PUT
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"id": "f16f7f69-776f-466c-8d9f-916ceac793ae",
+                	"update": {
+                		"fullUrl": "https://www.google.com"
+                	}
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+                id: pair_c5b20dd27b484de6b3e0fe315fea184b
+              - name: User-Agent
+                value: insomnia/11.2.0
+                id: pair_5623bf6b9dfa448f96c1fa1d8697e9c5
+              - id: pair_3cdd96e36a7a49a6bcc3ec293e59705c
+                name: Authorization
+                value: "{{ _.jwt_token }}"
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.url_shortener_host }}/urls/f16f7f69-776f-466c-8d9f-916ceac793ae"
+            name: Delete URL
+            meta:
+              id: req_c0b59d05893345828e4e73c1366ecfce
+              created: 1751130329718
+              modified: 1751228889875
+              isPrivate: false
+              description: ""
+              sortKey: -1751130329718
+            method: DELETE
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+                id: pair_ee7bbdf9ccd342a2abc0f6db660d087f
+              - id: pair_917b5a2ddaa6435eb3a988f1d4aa751b
+                name: Authorization
+                value: "{{ _.jwt_token }}"
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.url_shortener_host }}/urls/get/KQ3P0KG"
+            name: Get Short URL
+            meta:
+              id: req_eb76f85e12f64fe6aaba4ba6ead08a2c
+              created: 1751138768348
+              modified: 1751228853703
+              isPrivate: false
+              description: ""
+              sortKey: -1751138768348
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+                id: pair_4b923a4c9b964e569ae17ac9f72b4b8b
+              - id: pair_d6ca60c7ffa44286b436a28262ce17ce
+                name: Authorization
+                value: "{{ _.jwt_token }}"
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.url_shortener_host }}/urls/5tyv4cJ"
+            name: Redirect to URL
+            meta:
+              id: req_f51097943e044a1584a242538a3461b8
+              created: 1751140107971
+              modified: 1751243395244
+              isPrivate: false
+              description: ""
+              sortKey: -1751140107971
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Auth
+        meta:
+          id: fld_6ced9190824747a1926f75899a0bcc0e
+          created: 1751056357045
+          modified: 1751056357045
+          sortKey: -1751056357045
+          description: ""
+        children:
+          - url: "{{ _.auth_host }}/auth/login"
+            name: Login
+            meta:
+              id: req_8b79cbf0ee494555b46e09150e582512
+              created: 1751056359520
+              modified: 1751237188969
+              isPrivate: false
+              description: ""
+              sortKey: -1751056359520
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"email": "marceo@gmail.com",
+                	"password": "Qq1!Ww@2"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.2.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.auth_host }}/auth/signup"
+            name: Create Login
+            meta:
+              id: req_6e2bb602c5f8482d8e8c67efa78c8e79
+              created: 1751088310050
+              modified: 1751237181581
+              isPrivate: false
+              description: ""
+              sortKey: -1751088310050
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"name": "Marcelo",
+                	"email": "marceo@gmail.com",
+                	"password": "Qq1!Ww@2"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.2.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: API Gateway
+        meta:
+          id: fld_f2411795fdf74163b04baafb9dd37285
+          created: 1751232829957
+          modified: 1751232829957
+          sortKey: -1751232829957
+          description: ""
+        children:
+          - url: "{{ _.nginx_host }}/url/shorten"
+            name: Shorten URL
+            meta:
+              id: req_e3c1f64d021f4eb8919fdddd230b49a3
+              created: 1751232835505
+              modified: 1751237403807
+              isPrivate: false
+              description: ""
+              sortKey: -1751232835505
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"fullUrl": "http://youtube.com",
+                	"userId": "9263f50d-d287-4609-b3ca-f5f76f5fa340"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.2.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.nginx_host }}/login"
+            name: Login
+            meta:
+              id: req_cb8829e7e73645f6811e9e366b8d69d2
+              created: 1751234711339
+              modified: 1751237357412
+              isPrivate: false
+              description: ""
+              sortKey: -1751234711339
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"email": "vinicius@gmail.com",
+                	"password": "Qq1!Ww@2"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.2.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.nginx_host }}/signup"
+            name: Sign up
+            meta:
+              id: req_a16a34fa1c36485d8e7b33d373ae0beb
+              created: 1751234739785
+              modified: 1751238812533
+              isPrivate: false
+              description: ""
+              sortKey: -1751234739785
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"name": "Marcelo",
+                	"email": "vinicius2@gmail.com",
+                	"password": "Qq1!Ww@2"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.2.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.nginx_host }}/r/4Sa9C87"
+            name: Redirect
+            meta:
+              id: req_7ba81e77f9404c7a81f1187cea438c3a
+              created: 1751235212040
+              modified: 1751237409970
+              isPrivate: false
+              description: ""
+              sortKey: -1751235212040
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_99d30891da4bdcebc63947a8fc17f076de878684
+    created: 1726717617078
+    modified: 1726717617078
+environments:
+  name: Base Environment
+  meta:
+    id: env_99d30891da4bdcebc63947a8fc17f076de878684
+    created: 1726717617013
+    modified: 1751237351020
+    isPrivate: false
+  data:
+    springboot_host: http://localhost:8080
+    node_host: http://localhost:3000
+    finances_host: http://localhost:3000
+    users_host: http://localhost:3001
+    url_shortener_host: http://localhost:3002
+    auth_host: http://localhost:3003
+    jwt_token: Bearer
+      eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiMDE3NGYzYi1lNDAyLTQxYjMtODU3Ni1lZDNlMzBjNTdlNDciLCJlbWFpbCI6InZpbmljaXVzQGdtYWlsLmNvbSIsImlhdCI6MTc1MTIzNzM0MywiZXhwIjoxNzUxMjM3NjQzfQ.FxoyzUAydtjLf-bxz_3q0CtwONsOwcsT4FNuEUjkWvc
+    nginx_host: http://localhost:80
