@@ -22,13 +22,13 @@ Você pode instalar o Git seguindo as instruções oficiais:
 Clone o repositório com:
 
 ```bash
-git clone https://github.com/seu-usuario/seu-repositorio.git
-cd seu-repositorio
+git clone https://github.com/vinicius-of/nestjs_url_shortener
+cd nestjs_url_shortener
 ```
 
 ## 1. Executando localmente com Node.js, Yarn e NestJS
 
-Este projeto pode ser executado localmente utilizando Node.js, Yarn e o NestJS CLI. Essa abordagem é ideal para desenvolvimento ativo, testes e depuração. **Não é um projeto preparado para produção, então use com cautela.**
+Este projeto pode ser executado localmente utilizando Node.js, Yarn e o NestJS CLI. Essa abordagem é ideal para desenvolvimento ativo, testes e depuração.
 
 ### Requisitos
 
@@ -57,7 +57,20 @@ nvm install lts
 nvm use lts
 ```
 
-Após clonar o repositório, instale todas as dependências e devDependencies com:
+ou
+
+```bash
+nvm install 22.17.0
+nvm use 22.17.0
+```
+
+Após este passo, é necessário instalar o Yarn com o NPM.
+
+```bash
+npm install -g yarn@latest
+```
+
+Após clonar o repositório e instalar o Yarn, instale todas as dependências e devDependencies com:
 
 ```bash
 yarn install
@@ -147,7 +160,7 @@ Se os comandos retornar a versão do Docker e a lista de ajuda do Docker Compose
 
 ### Executando os serviços com Docker Compose
 
-Com o Docker instalado, você pode levantar todos os serviços da aplicação com o seguinte comando:
+Com o Docker instalado e estando no diretório onde encontra-se o arquivo `docker-compose.yaml`, você pode levantar todos os serviços da aplicação com o seguinte comando:
 
 ```bash
 docker compose up -d
@@ -180,11 +193,15 @@ Esse comando lista todos os containers em execução, suas portas expostas e o s
 
 Após levantar os serviços, você pode testar os endpoints expostos por cada um dos microsserviços: usuários, autenticação e encurtamento de URLs.
 
-Algumas rotas exigem autenticação via token JWT. Para essas rotas, é necessário primeiro realizar o login e obter um token válido, que deve ser incluído no cabeçalho `Authorization` das requisições subsequentes.
+Algumas rotas exigem autenticação via token JWT. Para essas rotas, é necessário primeiro realizar o login e obter um token válido, que deve ser incluído no cabeçalho como o nome do campo `Authorization` das requisições subsequentes e adicionar ao valor o prefixo `Bearer`.
 
 ### Exemplo de chamada para encurtar uma URL
 
-A rota `/urls/shorten` permite criar uma URL encurtada a partir de uma URL completa. Abaixo estão exemplos de como fazer essa requisição usando `curl` e `wget`.
+![info]
+
+> Primeiramente é necessário subir o serviço de Encurtamento de URLs para o funcionamento. Caso contrário, não funcionará.
+
+A rota `/urls/shorten` permite criar uma URL encurtada a partir de uma URL completa. Abaixo estão exemplos de como fazer essa requisição usando `curl` e `wget`. Este endpoint não é necessário autenticação para uso.
 
 #### Usando `curl`
 
@@ -198,7 +215,7 @@ curl --request POST \
 }'
 ```
 
-Usando `wget`
+#### Usando `wget`
 
 ```bash
 wget --quiet \
@@ -214,11 +231,13 @@ wget --quiet \
 
 Alguns endpoints exigem autenticação. Para acessá-los:
 
-1. Faça login através do serviço de autenticação (/auth/login) com suas credenciais.
+1. Crie um usuário através do serviço de autenticação (/auth/signup [Local] ou /signup [Docker]).
 
-2. Copie o token JWT retornado.
+2. Faça login através do serviço de autenticação (/auth/login [Local] ou /login [Docker]) com suas credenciais.
 
-3. Inclua o token no cabeçalho das requisições protegidas:
+3. Copie o token JWT retornado.
+
+4. Inclua o token no cabeçalho das requisições protegidas:
 
 ```http
 Authorization: Bearer <seu_token_aqui>
