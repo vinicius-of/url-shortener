@@ -55,13 +55,13 @@
         ]
       }
     },
-    "url_shortener": {
+    "urlShortener": {
       "type": "application",
-      "root": "apps/url_shortener",
+      "root": "apps/urlShortener",
       "entryFile": "main",
-      "sourceRoot": "apps/url_shortener/src",
+      "sourceRoot": "apps/urlShortener/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/url_shortener/tsconfig.app.json"
+        "tsConfigPath": "apps/urlShortener/tsconfig.app.json"
       }
     },
     "users": {

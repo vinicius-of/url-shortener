@@ -5,7 +5,7 @@ import {
     FindUserByIdDto,
     UsersService as SharedUserService,
     User,
-    USERS_ERROR_MESSAGES,
+    UserErrorMessages,
 } from '@app/shared';
 import {
     BadRequestException,
@@ -35,7 +35,7 @@ export class UsersService implements SharedUserService {
 
             return entity;
         } catch (error: unknown) {
-            throw new BadRequestException(USERS_ERROR_MESSAGES.USER_ALREADY_EXISTS);
+            throw new BadRequestException(UserErrorMessages.UserAlreadyExists);
         }
     }
 
@@ -46,14 +46,14 @@ export class UsersService implements SharedUserService {
             });
 
             if (!userFound) {
-                throw new NotFoundException(USERS_ERROR_MESSAGES.USER_NOT_FOUND);
+                throw new NotFoundException(UserErrorMessages.UserNotFound);
             }
 
             return userFound;
         } catch (error) {
             throw new InternalServerErrorException(
                 {
-                    message: USERS_ERROR_MESSAGES.INTERNAL_SERVER_ERROR,
+                    message: UserErrorMessages.InternalServerError,
                     error,
                 },
                 {
@@ -69,7 +69,7 @@ export class UsersService implements SharedUserService {
         });
 
         if (!userFound) {
-            throw new NotFoundException(USERS_ERROR_MESSAGES.USER_NOT_FOUND);
+            throw new NotFoundException(UserErrorMessages.UserNotFound);
         }
 
         return userFound;

@@ -1,5 +1,5 @@
 import {
-    AUTH_ERROR_MESSAGES,
+    AuthErrorMessages,
     AuthenticateDto,
     CreateLoginDto,
     CreateUserDto,
@@ -22,7 +22,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { compare, hashSync } from 'bcrypt';
 import { ConfigService, ConfigType } from '@nestjs/config';
-import { API_HOSTS } from '@app/config/config.constants';
+import { apisHosts } from '@app/config/config.constants';
 import { HttpService } from '@nestjs/axios';
 import { catchError, firstValueFrom } from 'rxjs';
 import { AxiosError } from 'axios';
@@ -33,7 +33,7 @@ export class AuthService implements SharedAuthService {
         private readonly jwtService: JwtService,
         private readonly configService: ConfigService,
         private readonly axios: HttpService,
-        @Inject(API_HOSTS.KEY) private readonly api_hosts: ConfigType<typeof API_HOSTS>,
+        @Inject(apisHosts.KEY) private readonly hosts: ConfigType<typeof apisHosts>,
         @InjectRepository(LoginEntity) private readonly loginRepository: Repository<LoginEntity>,
     ) {}
 
@@ -46,7 +46,7 @@ export class AuthService implements SharedAuthService {
             });
 
             if (loginExists) {
-                throw new BadRequestException(AUTH_ERROR_MESSAGES.LOGIN_ALREADY_EXISTS);
+                throw new BadRequestException(AuthErrorMessages.LoginAlreadyExists);
             }
 
             const salt = Number(this.configService.get<number>('BCRYPT_SALT'));
@@ -62,7 +62,7 @@ export class AuthService implements SharedAuthService {
             }
 
             throw new InternalServerErrorException({
-                message: AUTH_ERROR_MESSAGES.LOGIN_NOT_CREATED,
+                message: AuthErrorMessages.LoginNotCreated,
                 error: error,
             });
         }
@@ -80,7 +80,7 @@ export class AuthService implements SharedAuthService {
             }
 
             throw new InternalServerErrorException({
-                message: AUTH_ERROR_MESSAGES.LOGIN_NOT_CREATED,
+                message: AuthErrorMessages.LoginNotCreated,
                 error: error,
             });
         }
@@ -95,13 +95,13 @@ export class AuthService implements SharedAuthService {
         });
 
         if (!acceptedLogin) {
-            throw new NotFoundException(AUTH_ERROR_MESSAGES.USER_NOT_FOUND);
+            throw new NotFoundException(AuthErrorMessages.LoginNotFound);
         }
 
         const passwordAccepted = await compare(data.password, acceptedLogin.password);
 
         if (!passwordAccepted) {
-            throw new NotFoundException(AUTH_ERROR_MESSAGES.PASSWORD_INCORRECT);
+            throw new NotFoundException(AuthErrorMessages.WrongCredentials);
         }
 
         const tokenPayload = {
@@ -121,19 +121,17 @@ export class AuthService implements SharedAuthService {
 
     async createUserFromUsersApi(data: CreateUserDto): Promise<User> {
         const response = await firstValueFrom(
-            this.axios.post<User>(this.api_hosts.USERS_HOST, data).pipe(
+            this.axios.post<User>(this.hosts.usersHost, data).pipe(
                 catchError((error: AxiosError) => {
                     const { message, status, response } = error;
 
                     throw new HttpException(
                         {
-                            message: AUTH_ERROR_MESSAGES.USER_NOT_CREATED,
-                            source: this.api_hosts.USERS_HOST,
+                            message: AuthErrorMessages.UserNotCreated,
+                            source: this.hosts.usersHost,
                             body: data,
                             httpMessage:
-                                response?.data ||
-                                message ||
-                                AUTH_ERROR_MESSAGES.SERVICE_NOT_RESPONDED,
+                                response?.data || message || AuthErrorMessages.ServiceNotResponding,
                         },
                         status || 404,
                     );
@@ -146,13 +144,13 @@ export class AuthService implements SharedAuthService {
 
     async findUserFromUsersApi({ email }: FindUserByEmailDto): Promise<SignInData> {
         const response = await firstValueFrom(
-            this.axios.get<User>(`${this.api_hosts.USERS_HOST}/${email}`).pipe(
+            this.axios.get<User>(`${this.hosts.usersHost}/${email}`).pipe(
                 catchError((error: AxiosError) => {
                     const { message, status, response } = error;
                     throw new HttpException(
                         {
-                            message: AUTH_ERROR_MESSAGES.SERVICE_ERROR,
-                            source: this.api_hosts.USERS_HOST,
+                            message: AuthErrorMessages.ServiceError,
+                            source: this.hosts.usersHost,
                             httpMessage: response?.data || message,
                         },
                         status || 500,

@@ -1,26 +1,26 @@
-export enum AUTH_ERROR_MESSAGES {
-    USER_NOT_CREATED = 'The new user was not created',
-    WRONG_CREDENTIALS = 'The credentials was not accepted',
-    USER_NOT_AUTHENTICATED = 'The user is not authenticated to execute operation',
-    USER_WRONG_DATA = 'The user requires field "email" to create a login',
-    USER_NOT_VALIDATED = 'The user could not be validated',
-    USER_NOT_FOUND = 'The user could not be found',
-    SERVICE_ERROR = 'Something wrong occurred with service call',
-    LOGIN_ALREADY_EXISTS = 'This user already exists',
-    LOGIN_NOT_CREATED = 'This login could not be created',
-    SERVICE_NOT_RESPONDED = 'This service is not responding.',
-    PASSWORD_INCORRECT = 'Password incorrect',
+export enum AuthErrorMessages {
+    UserNotCreated = 'The new user was not created',
+    WrongCredentials = 'The credentials was wrong',
+    UserNotAutheticated = 'The user is not authenticated to execute operation',
+    UserWrongData = 'The user requires field "email" to create a login',
+    UserNotValid = 'The user could not be validated',
+    UserNotFound = 'The user could not be found',
+    ServiceError = 'Something wrong occurred with service call',
+    LoginAlreadyExists = 'This user already exists',
+    LoginNotCreated = 'This login could not be created',
+    LoginNotFound = 'This login could not be found',
+    ServiceNotResponding = 'This service is not responding.',
 }
 
-export enum URL_ERROR_MESSAGES {
-    URL_NOT_FOUND = 'This short URL could not be found',
-    URL_NOT_CREATED = 'This URL could not be created',
-    CLICK_NOT_COUNTED = 'This link could not register the click to save into user',
-    SERVICE_NOT_RESPONDED = 'This service is not responding.',
+export enum UrlErrorMessages {
+    UrlNotFound = 'This short URL could not be found',
+    UrlNotCreated = 'This URL could not be created',
+    ClickNotCounted = 'This link could not register the click to save into user',
+    ServiceNotResponding = 'This service is not responding.',
 }
 
-export enum USERS_ERROR_MESSAGES {
-    USER_NOT_FOUND = 'The user could not be found',
-    INTERNAL_SERVER_ERROR = 'Occurred some error in the service',
-    USER_ALREADY_EXISTS = 'This user already exists',
+export enum UserErrorMessages {
+    UserNotFound = 'The user could not be found',
+    InternalServerError = 'Occurred some error in the service',
+    UserAlreadyExists = 'This user already exists',
 }

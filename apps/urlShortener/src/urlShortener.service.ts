@@ -12,24 +12,24 @@ import {
     UrlShortenerService as SharedUrlService,
     ShortUrl,
     AddCountLinkDto,
-    URL_ERROR_MESSAGES,
+    UrlErrorMessages,
     RedirectViaShortUrlDto,
 } from '@app/shared';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ShortUrlEntity } from './entities/shortUrl.entity';
 import { Repository } from 'typeorm';
 import { generateSuffixCode, generateUrlCode } from './utils/generateUrlCode';
-import { API_HOSTS } from '@app/config/config.constants';
+import { apisHosts } from '@app/config/config.constants';
 import { HttpService } from '@nestjs/axios';
 import { ConfigType } from '@nestjs/config';
-import { catchError, firstValueFrom } from 'rxjs';
+import { catchError } from 'rxjs';
 import { AxiosError } from 'axios';
 
 @Injectable()
 export class UrlShortenerService implements SharedUrlService {
     constructor(
         private readonly axios: HttpService,
-        @Inject(API_HOSTS.KEY) private readonly api_hosts: ConfigType<typeof API_HOSTS>,
+        @Inject(apisHosts.KEY) private readonly hosts: ConfigType<typeof apisHosts>,
         @InjectRepository(ShortUrlEntity)
         private readonly shortUrlRepository: Repository<ShortUrlEntity>,
     ) {}
@@ -40,7 +40,7 @@ export class UrlShortenerService implements SharedUrlService {
         });
 
         if (!shortUrlFound) {
-            throw new NotFoundException(URL_ERROR_MESSAGES.URL_NOT_FOUND);
+            throw new NotFoundException(UrlErrorMessages.UrlNotFound);
         }
 
         try {
@@ -59,7 +59,7 @@ export class UrlShortenerService implements SharedUrlService {
         } catch (error) {
             throw new InternalServerErrorException(
                 {
-                    message: URL_ERROR_MESSAGES.CLICK_NOT_COUNTED,
+                    message: UrlErrorMessages.ClickNotCounted,
                 },
                 {
                     cause: new Error(error),
@@ -82,14 +82,17 @@ export class UrlShortenerService implements SharedUrlService {
 
         try {
             if (data?.userId) {
-                await this.addCountToUser({ id: data.userId });
+                this.addCountToUser({
+                    id: data.userId,
+                    Authorization: 'asd',
+                });
             }
 
             return newShortUrl;
         } catch (error) {
             throw new InternalServerErrorException(
                 {
-                    message: URL_ERROR_MESSAGES.URL_NOT_CREATED,
+                    message: UrlErrorMessages.UrlNotCreated,
                     error,
                 },
                 {
@@ -116,7 +119,7 @@ export class UrlShortenerService implements SharedUrlService {
         });
 
         if (!shortUrl || shortUrl.removedAt) {
-            throw new NotFoundException(URL_ERROR_MESSAGES.URL_NOT_FOUND);
+            throw new NotFoundException(UrlErrorMessages.UrlNotFound);
         }
 
         const updated = await this.shortUrlRepository.update(
@@ -139,20 +142,18 @@ export class UrlShortenerService implements SharedUrlService {
         return softDeleteResult.affected! > 0;
     }
 
-    async addCountToUser(data: AddCountLinkDto): Promise<void> {
-        const response = await this.axios
-            .put<void, AddCountLinkDto>(`${this.api_hosts.USERS_HOST}`, data)
+    addCountToUser(data: AddCountLinkDto): void {
+        this.axios
+            .put<void, AddCountLinkDto>(`${this.hosts.usersHost}`, data, {
+                headers: {
+                    Authorization: data.Authorization,
+                },
+            })
             .pipe(
                 catchError((error: AxiosError) => {
-                    throw {
-                        host: this.api_hosts.USERS_HOST,
-                        body: data,
-                        httpMessage: error.response?.data,
-                        status: error.status,
-                    };
+                    throw error;
                 }),
-            );
-
-        (await firstValueFrom(response)).data;
+            )
+            .subscribe();
     }
 }

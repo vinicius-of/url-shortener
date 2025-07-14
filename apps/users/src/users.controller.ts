@@ -1,11 +1,6 @@
 import { Body, Controller, Get, NotFoundException, Param, Post, Put } from '@nestjs/common';
 import { UsersService } from './users.service';
-import {
-    AddCountLinkDto,
-    CreateUserDto,
-    FindUserByEmailDto,
-    USERS_ERROR_MESSAGES,
-} from '@app/shared';
+import { AddCountLinkDto, CreateUserDto, FindUserByEmailDto, UserErrorMessages } from '@app/shared';
 import { Public } from '@app/shared/decorators';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
@@ -30,7 +25,6 @@ export class UsersController {
         return await this.usersService.createUser(data);
     }
 
-    @Public()
     @Get('/:email')
     @ApiOperation({
         summary: 'Find user by email (internal only)',
@@ -51,7 +45,6 @@ export class UsersController {
         return await this.usersService.findUserByEmail(params);
     }
 
-    @Public()
     @Put()
     @ApiOperation({
         summary: 'Add 1 into urls counter to the user (internal only)',
@@ -70,7 +63,7 @@ export class UsersController {
         });
 
         if (!userFound) {
-            throw new NotFoundException(USERS_ERROR_MESSAGES.USER_NOT_FOUND);
+            throw new NotFoundException(UserErrorMessages.UserNotFound);
         }
 
         return this.usersService.addCountLink(data);

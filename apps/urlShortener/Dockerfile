@@ -15,4 +15,4 @@ COPY --from=build /app/package.json ./
 COPY --from=build /app/yarn.lock ./
 COPY --from=build /app/db ./db
 
-CMD ["node", "dist/apps/url_shortener/main"]
+CMD ["node", "dist/apps/urlShortener/main"]

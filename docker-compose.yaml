@@ -18,33 +18,19 @@ services:
         build:
             context: .
             dockerfile: apps/users/Dockerfile
-        environment:
-            - NODE_ENV=developtment
-            - URLS_API=http://urls/3002/urls
-            - AUTH_API_PORT=http://auth:3003/auth
-            - JWT_SECRET=salt
-            - EXPIRES_IN=5m
-            - BCRYPT_SALT=10
-            - SQLITE_SYNCHRONIZE=true
         volumes:
             - ./volumes/users:/app/db
+        env_file: '.env.docker'
         networks:
             - internal
 
     urls:
         build:
             context: .
-            dockerfile: apps/url_shortener/Dockerfile
-        environment:
-            - NODE_ENV=developtment
-            - USERS_API=http://users:3001/users
-            - AUTH_API_PORT=http://auth:3003/auth
-            - JWT_SECRET=salt
-            - EXPIRES_IN=5m
-            - BCRYPT_SALT=10
-            - SQLITE_SYNCHRONIZE=true
+            dockerfile: apps/urlShortener/Dockerfile
         volumes:
             - ./volumes/urls:/app/db
+        env_file: '.env.docker'
         networks:
             - internal
 
@@ -52,15 +38,9 @@ services:
         build:
             context: .
             dockerfile: apps/auth/Dockerfile
-        environment:
-            - NODE_ENV=developtment
-            - USERS_API=http://users:3001/users
-            - JWT_SECRET=salt
-            - EXPIRES_IN=5m
-            - BCRYPT_SALT=10
-            - SQLITE_SYNCHRONIZE=true
         volumes:
             - ./volumes/auth:/app/db
+        env_file: '.env.docker'
         networks:
             - internal
 

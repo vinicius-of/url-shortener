@@ -1,8 +1,9 @@
 import { ValidationPipe } from '@nestjs/common';
-import { UrlShortenerModule } from './url_shortener.module';
+import { UrlShortenerModule } from './urlShortener.module';
 import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerDocumentOptions, SwaggerModule } from '@nestjs/swagger';
+import { EnvPortNames } from '@app/config/config.enum';
 
 async function bootstrap() {
     const app = await NestFactory.create(UrlShortenerModule, {
@@ -28,9 +29,11 @@ async function bootstrap() {
     app.useGlobalPipes(new ValidationPipe());
 
     const configService = app.get(ConfigService);
-    const port = configService.get<number>('URLS_API_PORT') || 3002;
-    console.log('Urls Service Port: ', port);
-    app.listen(port);
+    const port = configService.get<number>(EnvPortNames.urls) || 3002;
+
+    void app.listen(port, () => {
+        console.log('URLs Service listening to ', port);
+    });
 }
 
-bootstrap();
+void bootstrap();

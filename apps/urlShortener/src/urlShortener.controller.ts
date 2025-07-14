@@ -1,12 +1,12 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Response } from '@nestjs/common';
-import { UrlShortenerService } from './url_shortener.service';
+import { UrlShortenerService } from './urlShortener.service';
 import {
     RemoveUrlDto,
     CreateUrlDto,
     EditUrlDto,
     ListAllUrlDto,
     RedirectViaShortUrlDto,
-    URL_ERROR_MESSAGES,
+    UrlErrorMessages,
 } from '@app/shared';
 import { Public } from '@app/shared/decorators';
 import { Response as ExpressResponse } from 'express';
@@ -27,7 +27,7 @@ export class UrlShortenerController {
     })
     @ApiResponse({
         status: 500,
-        description: URL_ERROR_MESSAGES.URL_NOT_CREATED,
+        description: UrlErrorMessages.UrlNotCreated,
     })
     async create(@Body() data: CreateUrlDto) {
         return await this.urlShortenerService.create(data);
@@ -44,11 +44,11 @@ export class UrlShortenerController {
     })
     @ApiResponse({
         status: 400,
-        description: URL_ERROR_MESSAGES.URL_NOT_FOUND,
+        description: UrlErrorMessages.UrlNotFound,
     })
     @ApiResponse({
         status: 500,
-        description: URL_ERROR_MESSAGES.CLICK_NOT_COUNTED,
+        description: UrlErrorMessages.ClickNotCounted,
     })
     async redirectViaShortUrl(
         @Param() params: RedirectViaShortUrlDto,
@@ -68,11 +68,11 @@ export class UrlShortenerController {
     })
     @ApiResponse({
         status: 400,
-        description: URL_ERROR_MESSAGES.URL_NOT_FOUND,
+        description: UrlErrorMessages.UrlNotFound,
     })
     @ApiResponse({
         status: 500,
-        description: URL_ERROR_MESSAGES.CLICK_NOT_COUNTED,
+        description: UrlErrorMessages.ClickNotCounted,
     })
     async findShortUrl(@Param() params: RedirectViaShortUrlDto) {
         return await this.urlShortenerService.accessShortLink(params);
