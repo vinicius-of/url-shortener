@@ -6,25 +6,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { LoginEntity } from './entities/login.entity';
 import { HttpModule } from '@nestjs/axios';
 import { GuardsModule } from '@app/guards/guards.module';
-import { ConfigService } from '@nestjs/config';
+import { ConfigModule, ConfigType } from '@nestjs/config';
+import { databaseConfigs } from '@app/config/config.constants';
 
 @Module({
     imports: [
         GlobalConfigModule,
         TypeOrmModule.forRootAsync({
-            imports: [GlobalConfigModule],
-            inject: [ConfigService],
-            useFactory: (configService: ConfigService) => {
-                const database: string = configService.get<string>('DATABASE_CONFIG.dirAuth')!;
-                const isDev: boolean = configService.get<string>('SQLITE_SYNCHRONIZE') === 'true';
-
-                return {
-                    type: 'better-sqlite3',
-                    database,
-                    autoLoadEntities: true,
-                    synchronize: isDev,
-                };
-            },
+            imports: [ConfigModule.forFeature(databaseConfigs)],
+            inject: [databaseConfigs.KEY],
+            useFactory: (configService: ConfigType<typeof databaseConfigs>) => configService.auth,
         }),
         TypeOrmModule.forFeature([LoginEntity]),
         HttpModule,

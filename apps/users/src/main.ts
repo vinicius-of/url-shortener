@@ -3,6 +3,7 @@ import { UsersModule } from './users.module';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerDocumentOptions, SwaggerModule } from '@nestjs/swagger';
+import { EnvPortNames } from '@app/config/config.enum';
 
 async function bootstrap() {
     const app = await NestFactory.create(UsersModule, {
@@ -26,9 +27,10 @@ async function bootstrap() {
     SwaggerModule.setup('docs', app, documentFactory);
 
     const configService = app.get(ConfigService);
-    const port = configService.get<number>('USERS_API_PORT') || 3001;
-    console.log('Users Service Port: ', port);
-    app.listen(port);
+    const port = configService.get<number>(EnvPortNames.users) || 3001;
+    void app.listen(port, () => {
+        console.log('Users Service listening to ', port);
+    });
 }
 
-bootstrap();
+void bootstrap();

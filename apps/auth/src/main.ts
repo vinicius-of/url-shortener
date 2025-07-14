@@ -3,6 +3,7 @@ import { AuthModule } from './auth.module';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerDocumentOptions, SwaggerModule } from '@nestjs/swagger';
+import { EnvPortNames } from '@app/config/config.enum';
 
 async function bootstrap() {
     const app = await NestFactory.create(AuthModule, {
@@ -25,9 +26,10 @@ async function bootstrap() {
 
     app.useGlobalPipes(new ValidationPipe());
     const configService = app.get(ConfigService);
-    const port = configService.get<number>('AUTH_API_PORT') || 3003;
-    console.log('Auth Service Port: ', port);
-    app.listen(port);
+    const port = configService.get(EnvPortNames.auth);
+    void app.listen(port, () => {
+        console.log('Auth Service listening to ', port);
+    });
 }
 
-bootstrap();
+void bootstrap();

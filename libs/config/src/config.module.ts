@@ -1,23 +1,20 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { ConfigService, ConfigModule as NestConfigModule } from '@nestjs/config';
-import { API_HOSTS, DATABASE_CONFIG } from './config.constants';
+import { ConfigModule as NestConfigModule } from '@nestjs/config';
+import { apisHosts, databaseConfigs, jwtAuthConfigs } from './config.constants';
+import * as joi from 'joi';
 
 @Module({
     imports: [
         NestConfigModule.forRoot({
             envFilePath: '.env',
+            load: [apisHosts, databaseConfigs, jwtAuthConfigs],
+            expandVariables: true,
             isGlobal: true,
-            load: [API_HOSTS, DATABASE_CONFIG],
         }),
         JwtModule.registerAsync({
             global: true,
-            imports: [NestConfigModule],
-            inject: [ConfigService],
-            useFactory: (config: ConfigService) => ({
-                secret: config.get('JWT_SECRET'),
-                signOptions: { expiresIn: config.get('EXPIRES_IN') || '1d' },
-            }),
+            ...jwtAuthConfigs.asProvider(),
         }),
     ],
 })
