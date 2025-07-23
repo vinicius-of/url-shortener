@@ -46,6 +46,7 @@ export class UsersController {
     }
 
     @Put()
+    @Public()
     @ApiOperation({
         summary: 'Add 1 into urls counter to the user (internal only)',
     })

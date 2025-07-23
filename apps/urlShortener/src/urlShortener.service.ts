@@ -84,7 +84,6 @@ export class UrlShortenerService implements SharedUrlService {
             if (data?.userId) {
                 this.addCountToUser({
                     id: data.userId,
-                    Authorization: 'asd',
                 });
             }
 
@@ -144,11 +143,7 @@ export class UrlShortenerService implements SharedUrlService {
 
     addCountToUser(data: AddCountLinkDto): void {
         this.axios
-            .put<void, AddCountLinkDto>(`${this.hosts.usersHost}`, data, {
-                headers: {
-                    Authorization: data.Authorization,
-                },
-            })
+            .put<void, AddCountLinkDto>(`${this.hosts.usersHost}`, data)
             .pipe(
                 catchError((error: AxiosError) => {
                     throw error;
